@@ -17,6 +17,7 @@ const houseSchema = new mongoose.Schema({
   agent: { type: String, required: true },
   map: { type: String, required: true },
   description: { type: String, required: true },
+  photos: { type: [String], required: false },
   videos: { type: [String], required: false },
 });
 

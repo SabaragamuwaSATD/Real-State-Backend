@@ -1,45 +1,69 @@
 const sendResponse = require("../middleware/responseHandler");
 const House = require("../models/PropertyHouse");
+const { upload } = require("../configs/cloudinaryConfig");
 
 // Add a new house
-exports.addHouse = async (req, res) => {
-  const {
-    city,
-    title,
-    titleDescription,
-    price,
-    squareFeet,
-    bedrooms,
-    bathrooms,
-    parking,
-    agent,
-    map,
-    description,
-    videos,
-  } = req.body;
+exports.addHouse = [
+  upload.fields([
+    { name: "photos", maxCount: 10 },
+    { name: "videos", maxCount: 5 },
+  ]),
+  async (req, res) => {
+    console.log("Files:", req.files); // Check if videos are coming through
+    console.log("Body:", req.body);
 
-  const house = new House({
-    city,
-    title,
-    titleDescription,
-    price,
-    squareFeet,
-    bedrooms,
-    bathrooms,
-    parking,
-    agent,
-    map,
-    description,
-    videos,
-  });
+    const {
+      city,
+      title,
+      titleDescription,
+      price,
+      squareFeet,
+      bedrooms,
+      bathrooms,
+      parking,
+      agent,
+      map,
+      description,
+    } = req.body;
 
-  try {
-    const newHouse = await house.save();
-    sendResponse(res, "SUCCESS", newHouse);
-  } catch (err) {
-    sendResponse(res, "BAD_REQUEST", { message: err.message });
-  }
-};
+    const photos = req.files["photos"]
+      ? req.files["photos"].map((file) => file.path)
+      : [];
+    const videos = req.files["videos"]
+      ? req.files["videos"].map((file) => file.path)
+      : [];
+
+    const house = new House({
+      city,
+      title,
+      titleDescription,
+      price,
+      squareFeet,
+      bedrooms,
+      bathrooms,
+      parking,
+      agent,
+      map,
+      description,
+      photos,
+      videos,
+    });
+
+    try {
+      const newHouse = await house.save();
+      sendResponse(res, "CREATED", newHouse);
+    } catch (err) {
+      //   sendResponse(res, "BAD_REQUEST", { message: err.message });
+      console.error("Error Details:", JSON.stringify(err)); // Log full error
+      if (err.name === "ValidationError") {
+        return res.status(400).json({ message: err.message });
+      }
+      res
+        .status(500)
+        .json({ message: "Internal Server Error", error: err.message });
+    }
+  },
+];
 
 // Retreive all houses
 exports.getAllHouses = async (req, res) => {
