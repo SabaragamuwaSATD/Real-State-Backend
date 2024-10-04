@@ -16,14 +16,14 @@ const propertySchema = new mongoose.Schema({
   description: { type: String, required: true },
   photos: [
     {
-      _id: { type: mongoose.Schema.Types.ObjectId, auto: true }, // Unique ID for each photo
-      url: { type: String, required: false },
+      public_id: { type: String, required: true }, // Unique ID for each photo
+      url: { type: String, required: true },
     },
   ],
   videos: [
     {
-      _id: { type: mongoose.Schema.Types.ObjectId, auto: true }, // Unique ID for each video
-      url: { type: String, required: false },
+      public_id: { type: String, required: true }, // Unique ID for each video
+      url: { type: String, required: true },
     },
   ],
   //For House.....................................................

@@ -14,7 +14,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: "property_images",
+    // folder: "property_images",
     allowed_formats: ["jpg", "png", "mp4"],
     resource_type: "auto",
   },
