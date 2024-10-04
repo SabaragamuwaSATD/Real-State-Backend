@@ -2,9 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const connectDB = require("./configs/db");
-const houseRoutes = require("./routes/propertyHouseRoutes");
-const landRoutes = require("./routes/propertyLandRoutes");
-// const errorHandler = require("./middleware/errorHandler");
+const houseRoutes = require("./routes/propertyRoutes");
+
 const dotenv = require("dotenv");
 
 dotenv.config();
@@ -21,9 +20,5 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api/house", houseRoutes);
-app.use("/api/land", landRoutes);
-
-// Error Handling Middleware
-// app.use(errorHandler);
 
 module.exports = app;
