@@ -3,6 +3,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const connectDB = require("./configs/db");
 const houseRoutes = require("./routes/propertyHouseRoutes");
+const landRoutes = require("./routes/propertyLandRoutes");
 // const errorHandler = require("./middleware/errorHandler");
 const dotenv = require("dotenv");
 
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use("/api/house", houseRoutes);
+app.use("/api/land", landRoutes);
 
 // Error Handling Middleware
 // app.use(errorHandler);
