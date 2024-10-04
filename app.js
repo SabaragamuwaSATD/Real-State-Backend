@@ -19,6 +19,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
-app.use("/api/house", houseRoutes);
+app.use("/api/property", houseRoutes);
 
 module.exports = app;
